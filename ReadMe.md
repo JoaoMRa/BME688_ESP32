@@ -15,10 +15,10 @@ Library for interacting with the **BME688** sensor from **Bosch** on **ESP32** b
 2. Copy the `BME688_ESP32` folder into your **Arduino libraries** folder (`~/Documents/Arduino/libraries/`).
 3. Restart the **Arduino IDE**.
 
+<<<<<<< HEAD
 ### For **MicroPython**
 1. Upload the `bme688_esp32.py` file to your **ESP32** using **Thonny** or **mpy-cross**.
 2. Import the library in your MicroPython code:
-
 ```python
 from bme688_esp32 import BME688_ESP32
 ```
@@ -109,3 +109,12 @@ Here’s a table of the main functions available in the BME688_ESP32 library to 
 | `getGasResistanceInOhms()`        | Returns the gas resistance in Ohms.                                     |
 
 
+### 🔗 GitHub Repository: BME688_ESP32
+
+### ✉️ Maintainer: João Moreira
+
+### 🔗 Credits MicroPython: https://micropython.org/
+
+### 🔗 Arduino ESP32: https://www.arduino.cc/
+
+### 🔗 BME688: https://www.bosch-sensortec.com/productsenvironmental-sensors/bme680

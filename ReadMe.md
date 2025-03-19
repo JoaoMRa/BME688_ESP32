@@ -1,143 +1,111 @@
-# BME688 Library for MicroPython and Arduino (ESP32)
+# BME688_ESP32
 
-This is a simple library to interact with the **BME688** sensor from **Bosch**. It supports both **MicroPython** (for platforms like ESP32) and **Arduino (ESP32)**. The BME688 sensor provides temperature, humidity, pressure, and air quality readings, making it ideal for IoT projects and environmental monitoring.
+Library for interacting with the **BME688** sensor from **Bosch** on **ESP32** boards, compatible with both **Arduino** and **MicroPython**. The BME688 sensor provides measurements for **temperature**, **humidity**, **pressure**, and **gas resistance**, as well as an air quality index, making it ideal for IoT and environmental monitoring projects.
 
-## Features
+## 🚀 Features
+- Reads **temperature**, **humidity**, **pressure**, and **gas resistance**.
+- Provides **air quality index** based on gas resistance.
+- Compatible with **Arduino** (ESP32) and **MicroPython** on ESP32 boards.
+- Easy-to-use API for both platforms.
 
-- Temperature reading (in Celsius)
-- Humidity reading (%)
-- Pressure reading (hPa)
-- Gas resistance reading (Ohms)
-- Air quality index based on gas resistance
+## 📦 Installation
 
-## Platforms Supported
+### For **Arduino**
+1. Download or clone this repository.
+2. Copy the `BME688_ESP32` folder into your **Arduino libraries** folder (`~/Documents/Arduino/libraries/`).
+3. Restart the **Arduino IDE**.
 
-- **MicroPython** (ESP32)
-- **Arduino** (ESP32)
-
-## Installation
-
-### MicroPython Installation
-
-1. Clone the repository or download the files to your device:
-    ```bash
-    git clone https://github.com/your-username/bme688-micropython.git
-    ```
-
-2. Import the library in your code:
-    ```python
-    from bme688_ESP32 import BME688_ESP32
-    ```
-
-3. Make sure the **BME688** sensor is connected via **I2C** to your development board.
-
-### Arduino (ESP32) Installation
-
-1. Clone the repository or download the files to your local machine:
-    ```bash
-    git clone https://github.com/your-username/bme688-arduino.git
-    ```
-
-2. Install the necessary libraries in the Arduino IDE. You might need the **Wire** library for I2C communication and a compatible **BME688** library for Arduino (you can use the **Adafruit BME680** library as a base).
-
-3. Include the library in your Arduino sketch:
-    ```cpp
-    #include "BME688_ESP32.h"
-    ```
-
-4. Upload the code to your ESP32 board using the Arduino IDE.
-
-## Usage Example
-
-### MicroPython Example
+### For **MicroPython**
+1. Upload the `bme688_esp32.py` file to your **ESP32** using **Thonny** or **mpy-cross**.
+2. Import the library in your MicroPython code:
 
 ```python
-import time
-from machine import I2C, Pin
-from bme688 import BME688_ESP32
-
-# Initialize I2C (adjust pins for your board)
-i2c = I2C(0, scl=Pin(22), sda=Pin(21))  # Example for ESP32
-
-# Create the BME688 object
-sensor = BME688(i2c)
-
-# Main loop
-while True:
-    try:
-        # Read sensor data
-        temp = sensor.get_temperature()
-        hum = sensor.get_humidity()
-        press = sensor.get_pressure()
-        gas = sensor.get_gas_resistance()
-        air_quality = sensor.get_air_quality_index()
-
-        # Display data in the terminal
-        print(f"Temperature: {temp} C")
-        print(f"Humidity: {hum} %")
-        print(f"Pressure: {press} hPa")
-        print(f"Gas Resistance: {gas} Ohms")
-        print(f"Air Quality Index: {air_quality}")
-        print("-" * 30)
-
-    except ValueError as e:
-        print(f"Error: {e}")
-    
-    time.sleep(2)  # Wait 2 seconds before the next reading
+from bme688_esp32 import BME688_ESP32
 ```
-### Arduino Example
-
+## 📖 Usage Examples
+### 🟢 Basic Example (Arduino)
 ```c++
-#include <Wire.h>
-#include <Adafruit_Sensor.h>
-#include <Adafruit_BME680.h>
 
-Adafruit_BME680 bme;
+#include "BME688_ESP32.h"
+
+HardwareSerial mySerial(1);
+BME688_ESP32 bme(mySerial);
 
 void setup() {
   Serial.begin(115200);
-  
-  if (!bme.begin()) {
-    Serial.println("Error initializing BME680 sensor.");
-    while (1);
-  }
-  
-  Serial.println("BME680 sensor initialized.");
+  mySerial.begin(9600, SERIAL_8N1, 17, 16); // Adjust serial pins (TX, RX) if needed
+  bme.begin();
 }
 
 void loop() {
-  if (bme.performReading()) {
-    Serial.print("Temperature: ");
-    Serial.print(bme.temperature);
-    Serial.println(" °C");
+  // Get temperature in Celsius
+  float temperature = bme.readTemperature();
+  // Get humidity in percentage
+  float humidity = bme.readHumidity();
+  // Get pressure in hPa
+  float pressure = bme.readPressure();
+  // Get gas resistance in Ohms
+  float gasResistance = bme.readGasResistance();
+  // Get air quality index
+  float airQuality = bme.readAirQualityIndex();
 
-    Serial.print("Humidity: ");
-    Serial.print(bme.humidity);
-    Serial.println(" %");
+  Serial.print("Temperature: ");
+  Serial.println(temperature);
+  Serial.print("Humidity: ");
+  Serial.println(humidity);
+  Serial.print("Pressure: ");
+  Serial.println(pressure);
+  Serial.print("Gas Resistance: ");
+  Serial.println(gasResistance);
+  Serial.print("Air Quality: ");
+  Serial.println(airQuality);
 
-    Serial.print("Pressure: ");
-    Serial.print(bme.pressure / 100.0);
-    Serial.println(" hPa");
-
-    Serial.print("Gas Resistance: ");
-    Serial.print(bme.gas_resistance);
-    Serial.println(" Ohms");
-
-    delay(2000); // Wait 2 seconds before the next reading
-  }
+  delay(1000);  // Update every second
 }
 ```
-## License
-This project is licensed under the MIT License. See the LICENSE file for more details.
+### 🟢 Basic Example (MicroPython)
+```python
 
-### 🔗 GitHub Repository: BME688_ESP32
+from bme688_esp32 import BME688_ESP32
+import time
 
-### ✉️ Maintainer: João Moreira
+# Initialize BME688
+bme = BME688_ESP32(i2c_id=0, baudrate=115200, tx=17, rx=16)
+
+# Initialize sensor
+bme.begin()
+
+while True:
+    # Read temperature, humidity, pressure, gas resistance, and air quality
+    temperature = bme.read_temperature()
+    humidity = bme.read_humidity()
+    pressure = bme.read_pressure()
+    gas_resistance = bme.read_gas_resistance()
+    air_quality = bme.read_air_quality_index()
+
+    print(f"Temperature: {temperature} C")
+    print(f"Humidity: {humidity} %")
+    print(f"Pressure: {pressure} hPa")
+    print(f"Gas Resistance: {gas_resistance} Ohms")
+    print(f"Air Quality: {air_quality}")
+
+    time.sleep(1)
+```
+
+## 🛠 Sensor Function Reference
+Here’s a table of the main functions available in the BME688_ESP32 library to interact with the BME688 sensor:
+
+| **Function**                     | **Description**                                                         |
+|-----------------------------------|-------------------------------------------------------------------------|
+| `begin()`                         | Initializes the sensor and prepares it for measurements. Should be called in `setup()`. |
+| `readTemperature()`               | Reads the temperature (in Celsius) from the BME688 sensor.              |
+| `readHumidity()`                  | Reads the humidity (in %) from the BME688 sensor.                      |
+| `readPressure()`                  | Reads the pressure (in hPa) from the BME688 sensor.                     |
+| `readGasResistance()`             | Reads the gas resistance (in Ohms) from the BME688 sensor.              |
+| `readAirQualityIndex()`           | Calculates and returns the air quality index based on gas resistance.   |
+| `getTemperatureF()`               | Returns temperature in Fahrenheit (converts from Celsius).              |
+| `getHumidityPercentage()`         | Returns the humidity as a percentage.                                   |
+| `getPressureInHg()`               | Returns pressure in inches of mercury (inHg).                           |
+| `getGasResistanceInOhms()`        | Returns the gas resistance in Ohms.                                     |
 
 
-Credits
-MicroPython: https://micropython.org/
-
-Arduino ESP32: https://www.arduino.cc/
-
-BME688: https://www.bosch-sensortec.com/productsenvironmental-sensors/bme680

@@ -6,7 +6,7 @@ from bme688_ESP32 import BME688_ESP32
 i2c = I2C(0, scl=Pin(22), sda=Pin(21))  # Exemplo para ESP32
 
 # Criar o objeto BME688
-sensor = BME688(i2c)
+sensor = BME688_ESP32(i2c)
 
 # Loop principal
 while True:

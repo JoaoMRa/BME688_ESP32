@@ -26,7 +26,7 @@ This is a simple library to interact with the **BME688** sensor from **Bosch**. 
 
 2. Import the library in your code:
     ```python
-    from bme688 import BME688
+    from bme688_ESP32 import BME688_ESP32
     ```
 
 3. Make sure the **BME688** sensor is connected via **I2C** to your development board.
@@ -42,7 +42,7 @@ This is a simple library to interact with the **BME688** sensor from **Bosch**. 
 
 3. Include the library in your Arduino sketch:
     ```cpp
-    #include "BME688.h"
+    #include "BME688_ESP32.h"
     ```
 
 4. Upload the code to your ESP32 board using the Arduino IDE.
@@ -54,7 +54,7 @@ This is a simple library to interact with the **BME688** sensor from **Bosch**. 
 ```python
 import time
 from machine import I2C, Pin
-from bme688 import BME688
+from bme688 import BME688_ESP32
 
 # Initialize I2C (adjust pins for your board)
 i2c = I2C(0, scl=Pin(22), sda=Pin(21))  # Example for ESP32
@@ -130,8 +130,10 @@ void loop() {
 ## License
 This project is licensed under the MIT License. See the LICENSE file for more details.
 
-## Contributing
-Feel free to contribute! If you find a bug or want to add a feature, please open an issue or submit a pull request.
+### 🔗 GitHub Repository: BME688_ESP32
+
+### ✉️ Maintainer: João Moreira
+
 
 Credits
 MicroPython: https://micropython.org/

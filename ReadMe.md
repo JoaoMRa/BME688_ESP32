@@ -26,7 +26,7 @@ This is a simple library to interact with the **BME688** sensor from **Bosch**. 
 
 2. Import the library in your code:
     ```python
-    from bme688 import BME688
+    from bme688 import BME688_ESP32
     ```
 
 3. Make sure the **BME688** sensor is connected via **I2C** to your development board.

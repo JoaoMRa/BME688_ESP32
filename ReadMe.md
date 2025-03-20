@@ -14,8 +14,7 @@ Library for interacting with the **BME688** sensor from **Bosch** on **ESP32** b
 1. Download or clone this repository.
 2. Copy the `BME688_ESP32` folder into your **Arduino libraries** folder (`~/Documents/Arduino/libraries/`).
 3. Restart the **Arduino IDE**.
-
-<<<<<<< HEAD
+   
 ### For **MicroPython**
 1. Upload the `bme688_esp32.py` file to your **ESP32** using **Thonny** or **mpy-cross**.
 2. Import the library in your MicroPython code:

@@ -1,30 +1,27 @@
 # BME688_ESP32
 
-Biblioteca para interação com o sensor **BME688** da **Bosch** em placas **ESP32**, compatível com **Arduino** e **MicroPython**. Agora integrada com a **BSEC 2.5.0** da Bosch para processamento avançado de dados, incluindo **rede neural** para detecção de padrões de gases e previsão da qualidade do ar.
+Library for interacting with the **BME688** sensor from **Bosch** on **ESP32** boards, compatible with **Arduino** and **MicroPython**. Now integrated with Bosch's **BSEC 2.5.0** for advanced data processing, including **neural network** for detecting gas patterns and air quality prediction.
 
-## 🚀 Funcionalidades
-- Leitura de **temperatura**, **umidade**, **pressão** e **resistência de gás**.
-- Cálculo do **índice de qualidade do ar (IAQ)** usando a biblioteca **BSEC 2.5.0** da Bosch.
-- Predição de **CO2 equivalente (eCO2)** e **Compostos Orgânicos Voláteis (VOC)**.
-- Suporte à **rede neural integrada da Bosch**, que permite detectar padrões complexos de gases.
-- Compatível com **Arduino** (ESP32) e **MicroPython**.
+## 🚀 Features
+- Read **temperature**, **humidity**, **pressure**, and **gas resistance**.
+- Calculate the **Air Quality Index (IAQ)** using Bosch's **BSEC 2.5.0** library.
+- Predict **CO2 equivalent (eCO2)** and **Volatile Organic Compounds (VOC)**.
+- Supports Bosch's integrated **neural network**, enabling detection of complex gas patterns.
+- Compatible with **Arduino** (ESP32) and **MicroPython**.
 
-## 📦 Instalação
+## 📦 Installation
 
-### Para **Arduino**
-1. Baixe ou clone este repositório.
-2. Faça o download da **BSEC 2.5.0** da Bosch:  
-   - [Bosch BSEC Library](https://www.bosch-sensortec.com/software-tools/software/previous-bsec-software-versions/)
-3. Copie a pasta `BME688_ESP32` e os arquivos da **BSEC** para a pasta de bibliotecas do Arduino (`~/Documents/Arduino/libraries/`).
-4. Reinicie a **IDE do Arduino**.
+### For **Arduino**
+1. Download or clone this repository.
+2. Copy the `BME688_ESP32` folder into your **Arduino libraries** folder (`~/Documents/Arduino/libraries/`).
+3. Restart the **Arduino IDE**.
 
-### Para **MicroPython**
-1. Baixe a **BSEC** da Bosch e os arquivos necessários.
-2. Suba o arquivo `bme688_esp32.py` para o ESP32 via **Thonny** ou **mpy-cross**.
-3. No código MicroPython, importe a biblioteca:
+### For **MicroPython**
+1. Upload the `bme688_esp32.py` file to your **ESP32** using **Thonny** or **mpy-cross**.
+2. Import the library in your MicroPython code:
 ```python
 from bme688_esp32 import BME688_ESP32
-```
+
 
 ## 📖 Exemplos de Uso
 ### 🟢 Exemplo Básico (Arduino)

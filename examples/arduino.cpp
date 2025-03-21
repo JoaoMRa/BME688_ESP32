@@ -1,35 +1,43 @@
-#include <Wire.h>
 #include "BME688_ESP32.h"
 
-BME688 sensor;  // Cria o objeto do sensor BME688
+BME688_ESP32 bme;  // Criar instância do sensor
 
 void setup() {
-  Serial.begin(115200);
-  if (!sensor.begin()) {
-    Serial.println("Falha ao inicializar o BME688");
-    while (1);
-  }
-  Serial.println("Sensor BME688 inicializado com sucesso!");
+    Serial.begin(115200);
+    
+    if (!bme.begin()) {
+        Serial.println("Falha ao inicializar o BME688!");
+        while (1);
+    }
+    Serial.println("BME688 inicializado com sucesso!");
 }
 
 void loop() {
-  if (sensor.readSensorData()) {
     Serial.print("Temperatura: ");
-    Serial.print(sensor.getTemperature());
-    Serial.print(" °C, ");
-    Serial.print("Umidade: ");
-    Serial.print(sensor.getHumidity());
-    Serial.print(" %, ");
+    Serial.print(bme.readTemperature());
+    Serial.println(" °C");
+
+    Serial.print("Humidade: ");
+    Serial.print(bme.readHumidity());
+    Serial.println(" %");
+
     Serial.print("Pressão: ");
-    Serial.print(sensor.getPressure());
-    Serial.print(" hPa, ");
-    Serial.print("Gas Resistance: ");
-    Serial.print(sensor.getGasResistance());
-    Serial.print(" Ohms, ");
-    Serial.print("Índice de Qualidade do Ar: ");
-    Serial.println(sensor.getAirQualityIndex());
-  } else {
-    Serial.println("Dados não prontos.");
-  }
-  delay(1000);
+    Serial.print(bme.readPressure());
+    Serial.println(" hPa");
+
+    Serial.print("Resistência do Gás: ");
+    Serial.print(bme.readGasResistance());
+    Serial.println(" Ohms");
+
+    Serial.print("Índice de Qualidade do Ar (IAQ): ");
+    Serial.println(bme.readAirQualityIndex());
+
+    Serial.print("Equivalente de CO2: ");
+    Serial.println(bme.getCO2());
+
+    Serial.print("Composto Orgânico Volátil (VOC): ");
+    Serial.println(bme.getVOC());
+
+    delay(2000);  // Atualiza a cada 2 segundos
 }
+

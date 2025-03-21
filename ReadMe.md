@@ -1,120 +1,114 @@
 # BME688_ESP32
 
-Library for interacting with the **BME688** sensor from **Bosch** on **ESP32** boards, compatible with both **Arduino** and **MicroPython**. The BME688 sensor provides measurements for **temperature**, **humidity**, **pressure**, and **gas resistance**, as well as an air quality index, making it ideal for IoT and environmental monitoring projects.
+Biblioteca para interação com o sensor **BME688** da **Bosch** em placas **ESP32**, compatível com **Arduino** e **MicroPython**. Agora integrada com a **BSEC 2.5.0** da Bosch para processamento avançado de dados, incluindo **rede neural** para detecção de padrões de gases e previsão da qualidade do ar.
 
-## 🚀 Features
-- Reads **temperature**, **humidity**, **pressure**, and **gas resistance**.
-- Provides **air quality index** based on gas resistance.
-- Compatible with **Arduino** (ESP32) and **MicroPython** on ESP32 boards.
-- Easy-to-use API for both platforms.
+## 🚀 Funcionalidades
+- Leitura de **temperatura**, **umidade**, **pressão** e **resistência de gás**.
+- Cálculo do **índice de qualidade do ar (IAQ)** usando a biblioteca **BSEC 2.5.0** da Bosch.
+- Predição de **CO2 equivalente (eCO2)** e **Compostos Orgânicos Voláteis (VOC)**.
+- Suporte à **rede neural integrada da Bosch**, que permite detectar padrões complexos de gases.
+- Compatível com **Arduino** (ESP32) e **MicroPython**.
 
-## 📦 Installation
+## 📦 Instalação
 
-### For **Arduino**
-1. Download or clone this repository.
-2. Copy the `BME688_ESP32` folder into your **Arduino libraries** folder (`~/Documents/Arduino/libraries/`).
-3. Restart the **Arduino IDE**.
+### Para **Arduino**
+1. Baixe ou clone este repositório.
+2. Faça o download da **BSEC 2.5.0** da Bosch:  
+   - [Bosch BSEC Library](https://www.bosch-sensortec.com/software-tools/software/previous-bsec-software-versions/)
+3. Copie a pasta `BME688_ESP32` e os arquivos da **BSEC** para a pasta de bibliotecas do Arduino (`~/Documents/Arduino/libraries/`).
+4. Reinicie a **IDE do Arduino**.
 
-<<<<<<< HEAD
-### For **MicroPython**
-1. Upload the `bme688_esp32.py` file to your **ESP32** using **Thonny** or **mpy-cross**.
-2. Import the library in your MicroPython code:
+### Para **MicroPython**
+1. Baixe a **BSEC** da Bosch e os arquivos necessários.
+2. Suba o arquivo `bme688_esp32.py` para o ESP32 via **Thonny** ou **mpy-cross**.
+3. No código MicroPython, importe a biblioteca:
 ```python
 from bme688_esp32 import BME688_ESP32
 ```
-## 📖 Usage Examples
-### 🟢 Basic Example (Arduino)
-```c++
+
+## 📖 Exemplos de Uso
+### 🟢 Exemplo Básico (Arduino)
+```cpp
 
 #include "BME688_ESP32.h"
 
-HardwareSerial mySerial(1);
-BME688_ESP32 bme(mySerial);
+BME688_ESP32 bme;
 
 void setup() {
-  Serial.begin(115200);
-  mySerial.begin(9600, SERIAL_8N1, 17, 16); // Adjust serial pins (TX, RX) if needed
-  bme.begin();
+    Serial.begin(115200);
+    
+    if (!bme.begin()) {
+        Serial.println("Erro ao inicializar o BME688!");
+        while (1);
+    }
+    Serial.println("BME688 inicializado!");
 }
 
 void loop() {
-  // Get temperature in Celsius
-  float temperature = bme.readTemperature();
-  // Get humidity in percentage
-  float humidity = bme.readHumidity();
-  // Get pressure in hPa
-  float pressure = bme.readPressure();
-  // Get gas resistance in Ohms
-  float gasResistance = bme.readGasResistance();
-  // Get air quality index
-  float airQuality = bme.readAirQualityIndex();
+    Serial.print("Temperatura: ");
+    Serial.print(bme.readTemperature());
+    Serial.println(" °C");
 
-  Serial.print("Temperature: ");
-  Serial.println(temperature);
-  Serial.print("Humidity: ");
-  Serial.println(humidity);
-  Serial.print("Pressure: ");
-  Serial.println(pressure);
-  Serial.print("Gas Resistance: ");
-  Serial.println(gasResistance);
-  Serial.print("Air Quality: ");
-  Serial.println(airQuality);
+    Serial.print("Humidade: ");
+    Serial.print(bme.readHumidity());
+    Serial.println(" %");
 
-  delay(1000);  // Update every second
+    Serial.print("Pressão: ");
+    Serial.print(bme.readPressure());
+    Serial.println(" hPa");
+
+    Serial.print("Resistência do Gás: ");
+    Serial.print(bme.readGasResistance());
+    Serial.println(" Ohms");
+
+    Serial.print("Índice de Qualidade do Ar (IAQ): ");
+    Serial.println(bme.readAirQualityIndex());
+
+    Serial.print("CO2 Equivalente: ");
+    Serial.println(bme.getCO2());
+
+    Serial.print("VOC Equivalente: ");
+    Serial.println(bme.getVOC());
+
+    delay(2000);
 }
 ```
-### 🟢 Basic Example (MicroPython)
+### 🟢 Exemplo Básico (MicroPython)
 ```python
 
 from bme688_esp32 import BME688_ESP32
 import time
 
-# Initialize BME688
-bme = BME688_ESP32(i2c_id=0, baudrate=115200, tx=17, rx=16)
-
-# Initialize sensor
-bme.begin()
+bme = BME688_ESP32()
 
 while True:
-    # Read temperature, humidity, pressure, gas resistance, and air quality
-    temperature = bme.read_temperature()
-    humidity = bme.read_humidity()
-    pressure = bme.read_pressure()
-    gas_resistance = bme.read_gas_resistance()
-    air_quality = bme.read_air_quality_index()
-
-    print(f"Temperature: {temperature} C")
-    print(f"Humidity: {humidity} %")
-    print(f"Pressure: {pressure} hPa")
-    print(f"Gas Resistance: {gas_resistance} Ohms")
-    print(f"Air Quality: {air_quality}")
-
-    time.sleep(1)
+    print(f"Temperatura: {bme.read_temperature()} °C")
+    print(f"Humidade: {bme.read_humidity()} %")
+    print(f"Pressão: {bme.read_pressure()} hPa")
+    print(f"Resistência do Gás: {bme.read_gas_resistance()} Ohms")
+    print(f"Índice de Qualidade do Ar (IAQ): {bme.read_air_quality_index()}")
+    print(f"CO2 Equivalente: {bme.get_co2()}")
+    print(f"VOC Equivalente: {bme.get_voc()}")
+    
+    time.sleep(2)
 ```
 
-## 🛠 Sensor Function Reference
-Here’s a table of the main functions available in the BME688_ESP32 library to interact with the BME688 sensor:
+## 🛠 Funções da Biblioteca
 
-| **Function**                     | **Description**                                                         |
-|-----------------------------------|-------------------------------------------------------------------------|
-| `begin()`                         | Initializes the sensor and prepares it for measurements. Should be called in `setup()`. |
-| `readTemperature()`               | Reads the temperature (in Celsius) from the BME688 sensor.              |
-| `readHumidity()`                  | Reads the humidity (in %) from the BME688 sensor.                      |
-| `readPressure()`                  | Reads the pressure (in hPa) from the BME688 sensor.                     |
-| `readGasResistance()`             | Reads the gas resistance (in Ohms) from the BME688 sensor.              |
-| `readAirQualityIndex()`           | Calculates and returns the air quality index based on gas resistance.   |
-| `getTemperatureF()`               | Returns temperature in Fahrenheit (converts from Celsius).              |
-| `getHumidityPercentage()`         | Returns the humidity as a percentage.                                   |
-| `getPressureInHg()`               | Returns pressure in inches of mercury (inHg).                           |
-| `getGasResistanceInOhms()`        | Returns the gas resistance in Ohms.                                     |
+| Função                  | Descrição                                                                 |
+|-------------------------|---------------------------------------------------------------------------|
+| `begin()`               | Inicializa o sensor e configura a BSEC.                                  |
+| `readTemperature()`     | Retorna a temperatura em °C.                                              |
+| `readHumidity()`        | Retorna a umidade relativa em %.                                          |
+| `readPressure()`        | Retorna a pressão atmosférica em hPa.                                     |
+| `readGasResistance()`   | Retorna a resistência de gás em Ohms.                                     |
+| `readAirQualityIndex()` | Calcula e retorna o Índice de Qualidade do Ar (IAQ).                      |
+| `getCO2()`              | Retorna a estimativa de CO2 equivalente (eCO2).                            |
+| `getVOC()`              | Retorna a estimativa de Compostos Orgânicos Voláteis (VOC).               |
 
-
-### 🔗 GitHub Repository: BME688_ESP32
-
-### ✉️ Maintainer: João Moreira
-
-### 🔗 Credits MicroPython: https://micropython.org/
-
-### 🔗 Arduino ESP32: https://www.arduino.cc/
-
-### 🔗 BME688: https://www.bosch-sensortec.com/productsenvironmental-sensors/bme680
+## 🔗 Referências
+### GitHub Repositório: BME688_ESP32
+### BSEC da Bosch: Bosch Sensortec
+### MicroPython: micropython.org
+### Arduino ESP32: arduino.cc
+## ✉️ Maintainer: João Moreira

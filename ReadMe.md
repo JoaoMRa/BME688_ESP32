@@ -14,13 +14,19 @@ Library for interacting with the **BME688** sensor from **Bosch** on **ESP32** b
 ### For **Arduino**
 1. Download or clone this repository.
 2. Copy the `BME688_ESP32` folder into your **Arduino libraries** folder (`~/Documents/Arduino/libraries/`).
-3. Restart the **Arduino IDE**.
+3. Install the Bosch **BSEC 2.5.0** library for advanced sensor processing:
+   - Open the **Arduino IDE**.
+   - Go to **Sketch > Include Library > Manage Libraries**.
+   - Search for **BSEC** and install **Bosch BSEC** by **Bosch Sensortec**.
+4. Restart the **Arduino IDE**.
 
 ### For **MicroPython**
 1. Upload the `bme688_esp32.py` file to your **ESP32** using **Thonny** or **mpy-cross**.
-2. Import the library in your MicroPython code:
+2. Install the Bosch **BSEC 2.5.0** library for MicroPython (check Bosch's documentation for installation steps).
+3. Import the library in your MicroPython code:
 ```python
 from bme688_esp32 import BME688_ESP32
+
 ```
 
 ## 📖 Exemplos de Uso

@@ -21,7 +21,7 @@ Library for interacting with the **BME688** sensor from **Bosch** on **ESP32** b
 2. Import the library in your MicroPython code:
 ```python
 from bme688_esp32 import BME688_ESP32
-
+```
 
 ## 📖 Exemplos de Uso
 ### 🟢 Exemplo Básico (Arduino)
